@@ -52,8 +52,8 @@ function Juego(){
 //---------------------------------------------------------------------
 function Partida(num, owner){
 	this.maximo 	= num;
-	this.nickOwner 	= owner;
-	this.fase 		= new Inicial();
+	this.nickOwner	= owner;
+	this.fase		= new Inicial();
 	this.usuarios 	= {}; //el indew 0 sera el owner
 
 	this.agregarUsuario=function(nick){
@@ -100,9 +100,21 @@ function Partida(num, owner){
 			randomValue = randomInt(0,usuarioMaximo) ; 		//get a random value for affect the impostor
 			user = Object.keys(this.usuarios)[randomValue];
 
-			if (this.usuarios[user].impostor != 1 ){
-				this.usuarios[user].impostor = 1;
+			if (this.usuarios[user].impostor != true ){
+				this.usuarios[user].impostor = true;
 				compteur += 1;
+			}
+		}
+	}
+	this.assignarTarea = function(){
+		let tarea 	   = ["Jardines","Basuras","Calles","Mobiliario"]; //tab tarea
+		usuarioMaximo  = Object.keys(this.usuarios).length; 			//get the number max of user
+
+		for (var i = 0 ; i <= usuarioMaximo-1 ; i++) {
+			user   = Object.keys(this.usuarios)[i];
+			
+			if (this.usuarios[user].impostor != true ){
+				this.usuarios[user].tarea = tarea[randomInt(0,3)];
 			}
 		}
 	}
@@ -189,10 +201,11 @@ function Final(){
 
 //---------------------------------------------------------------------
 function Usuario(nick){
-	this.nick 	= nick;
-	this.juego 	= juego;
+	this.nick 	  = nick;
+	this.juego 	  = juego;
+	this.impostor = false;
 	this.partida;
-	this.impostor = 0;
+	this.tarea = "";
 
 	this.crearPartida = function(num){
 		return this.juego.crearPartida(num,this);
@@ -213,18 +226,19 @@ function randomInt(low, high) {
 //---------------------------------------------------------------------
 function inicio(){	
 	 
-	 	 juego	= new Juego();
-	 var usr 	= new Usuario("pepe",juego);
-	 var codigo = usr.crearPartida(4);
+	 	juego	= new Juego();
+	var usr 	= new Usuario("pepe",juego);
+	var codigo 	= usr.crearPartida(4);	//limit max participant
 
-	 juego.unirAPartida(codigo, "luis");
-	 juego.unirAPartida(codigo, "luisa");
-	 juego.unirAPartida(codigo, "luisito");
-	 juego.unirAPartida(codigo, "pepe2");
+	juego.unirAPartida(codigo, "luis");
+	juego.unirAPartida(codigo, "luisa");
+	juego.unirAPartida(codigo, "luisito");
+	juego.unirAPartida(codigo, "pepe2");	//pas inséré dans la partie = normal
 
-	 usr.iniciarPartida();
+	usr.iniciarPartida();
 
-	 juego.partidas.fallo.assignarRole(2);	
-//	 juego.partidas.fallo.usuarios;
+	juego.partidas.fallo.assignarRole(1);	
+	// juego.partidas.fallo.usuarios;
+	//juego.partidas.fallo.assignarTarea()
 	 
 }
