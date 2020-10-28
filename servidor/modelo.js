@@ -18,7 +18,7 @@ function Juego(){
 		//&& this.numeroValido(num)
 
 		if (!this.partidas[codigo]){
-			this.partidas[codigo] = new Partida(num, owner.nick);
+			this.partidas[codigo] = new modelo.Partida(num, owner.nick);
 			owner.partida = this.partidas[codigo];
 		}
 
@@ -60,7 +60,7 @@ function Juego(){
 function Partida(num, owner){
 	this.maximo 	= num;
 	this.nickOwner	= owner;
-	this.fase		= new Inicial();
+	this.fase		= new modelo.Inicial();
 	this.usuarios 	= {}; //el index 0 es el owner
 	this.nbImpostorVivos	= 0;
 	this.nbCiudadanosVivos	= 0;
@@ -77,7 +77,7 @@ function Partida(num, owner){
 			contador = contador + 1;
 		}
 
-		this.usuarios[nuevo] = new Usuario(nuevo);
+		this.usuarios[nuevo] = new modelo.Usuario(nuevo);
 		this.usuarios[nuevo].partida = this;
 		//this.comprobarMinimo();
 
@@ -100,7 +100,7 @@ function Partida(num, owner){
 		//To DO
 		this.eliminarUsuario(nick);
 		if(!this.comprobarMinimo()){
-			this.fase = new Inicial();
+			this.fase = new modelo.Inicial();
 		}
 	}
 	this.eliminarUsuario = function(nick){
@@ -193,7 +193,7 @@ function Inicial(){
 		console.log("la partida es en la etapo inicial");
 		
 		if (partida.comprobarMinimo()){
-			partida.fase = new Completado();
+			partida.fase = new modelo.Completado();
 		}
 	}
 	this.iniciarPartida = function(){
@@ -210,7 +210,7 @@ function Completado(){
 	this.nombre = "Completado" ;
 
 	this.iniciarPartida = function(partida){
-		partida.fase = new Jugando();
+		partida.fase = new modelo.Jugando();
 	}
 	this.agregarUsuario = function(nick,partida){
 		if (partida.comprobarMaximo()){
@@ -222,7 +222,7 @@ function Completado(){
 	this.abandonnarPartida = function(nick,partida){
 		partida.eliminarUsuario(nick);
 		if(!partida.comprobarMinimo()){
-			partida.fase = new Inicial();
+			partida.fase = new modelo.Inicial();
 		}	
 	}
 
@@ -298,8 +298,8 @@ function randomInt(low, high) {
 //---------------------------------------------------------------------
 function inicio(){	
 	 
-	 	juego	= new Juego();
-	var usr 	= new Usuario("pepe",juego);
+	 	juego	= new modelo.Juego();
+	var usr 	= new modelo.Usuario("pepe",juego);
 	var codigo 	= usr.crearPartida(4);	//Max paricipant limit
 
 	juego.unirAPartida(codigo, "luis");
@@ -316,3 +316,8 @@ function inicio(){
 	//juego.partidas.fallo.usuarios;
 	 
 }
+
+
+
+module.exports.Juego 	= Juego;
+module.exports.Usuario 	= Usuario;

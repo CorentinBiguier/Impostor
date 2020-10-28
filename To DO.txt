@@ -1,0 +1,11 @@
+-ajouter les votes de tout le monde
+
+
+idée si motivation.
+
+Refaire le code sur plusieurs fichier
+
+Créer un objet vivant et un objet fantome. 
+Objet vivant : ataquer, voter, il peut parler dans un chat vivant, faire ses taches
+Objet ghost  : faire ses taches, il peut parler dans un chat ghost
+
