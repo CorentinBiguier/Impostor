@@ -17,13 +17,13 @@ app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// var juego = new Juego();
+var juego = new Juego();
 
-// app.get('/', function (request, response) {
-//     var contenido = fs.readFileSync(__dirname + "/Cliente/index.html"); 
-//     response.setHeader("Content-type", "text/html");
-//     response.send(contenido);
-// });
+app.get('/', function (request, response) {
+    var contenido = fs.readFileSync(__dirname + "/Cliente/index.html"); 
+    response.setHeader("Content-type", "text/html");
+    response.send(contenido);
+});
 
 // app.get("/juego",function(request,response){
 // 	var contenido = fs.readFileSync(__dirname + "/Cliente/game2d/index-game.html"); 
