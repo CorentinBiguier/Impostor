@@ -1,0 +1,16 @@
+/*
+* List of the different task by map 
+*
+*/
+{
+	"mapa1":[
+		{"individuales":[]},
+		{"communes":[]},
+		{"sabotajes":[]}
+	],
+	"mapa2":[
+		{"individuales":[]},
+		{"communes":[]},
+		{"sabotajes":[]}
+	]
+}
