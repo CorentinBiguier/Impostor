@@ -11,11 +11,12 @@ describe("El juego del impostor",function(){
 	var socketId;
 	var usuario;
 	var msgUnidad;
+	var error;
 
 	beforeEach(function(){
 		juego = new Juego();
 		owner = "Pepe";
-		socketId = "ef84e8f844sf";
+		numeroJugador = 4;
 	});
 
 	it("comprobar valores iniciales del juego",function(){
@@ -24,70 +25,69 @@ describe("El juego del impostor",function(){
 	});
 
   	describe("el owner Pepe es en fase de creacion de una partida de 4 a 10 jugadores",function(){
-		numeroJugador = 4; //cuando se prueba las votacion es mas facil.
+		//cuando se prueba las votacion es mas facil.
 		beforeEach(function() {
-			result = juego.crearPartida(numeroJugador,socketId,owner).codigoPartida;
+			result = juego.crearPartida(numeroJugador,owner);
 	});
 
 		it("se comprueba la partida",function(){ 	
-		  	expect(result).not.toBe(undefined);
-		  	expect(juego.getPartidas()[0].getNickOwner().getNombre()).toEqual("Pepe");
+		  	expect(result.codigoPartida).not.toBe(undefined);
+		  	expect(juego.getPartidas()[0].getNickOwner()).toEqual(0);
+		  	expect(juego.getPartidas()[0].getUsuarios()[juego.getPartidas()[0].getNickOwner()].getNombre()).toEqual("Pepe");
 		  	expect(juego.getPartidas()[0].getNumUsuarios()).toEqual(numeroJugador);
 		  	expect(juego.getPartidas()[0].getFase().getEstado()).toEqual("Inicial");
 		  	expect(juego.getPartidas()[0].getUsuarios().length).toEqual(1);
 		  	expect(juego.partidaExiste("eeoji").msg).toBe("No partida con este codigo");
-		  	expect(juego.getPartidas()[juego.partidaExiste(result)].getCodigo()).toEqual(juego.getPartidas()[0].getCodigo());
+		  	expect(juego.getPartidas()[juego.partidaExiste(result.codigoPartida)].getCodigo()).toEqual(juego.getPartidas()[0].getCodigo());
 		});
 
-		it("el owner borra la partida", function(){
-			expect(juego.abandonar(result,juego.getPartidas()[0].getUsuarios()[0].getSocketID()).msg).toEqual("Partida abandonada");
+		it("el owner borra la partida, comprobar si no es el owner o no esta en la partida", function(){
+			expect(juego.borrarPartida(result.codigoPartida,juego.getPartidas()[0].getUsuarios()[0].getId()).msg).toEqual("Partida abandonada");
 			expect(juego.getPartidas().length).toEqual(0);
+			result = juego.crearPartida(numeroJugador,owner);
+			expect(juego.borrarPartida(result.codigoPartida,2).msg).toEqual("No està en la partida o no eres el owner");
 		});
 
-		it("no se puede crear partida si el num no esta entre 4 y 10", function(){
-			var error = juego.crearPartida(3,owner);
+		it("no se puede crear partida si el num no esta entre 4 y 10 o si nombre no es string", function(){
+			error = juego.crearPartida(3,owner);
 			expect(error.msg).toEqual("Obligatorio un numero entre 4 y 10");
 			error = juego.crearPartida(11,owner);
 			expect(error.msg).toEqual("Obligatorio un numero entre 4 y 10");
+			error = juego.crearPartida(5,true);
+			expect(error.msg).toEqual("Nombre escrito es falso");
 		});
 
 		it("varios usuarios se unen a la partida y uno no se puede",function(){
 			expect(juego.getPartidas()[0].getFase().getEstado()).toEqual("Inicial");
-			for(let i = 0; i < numeroJugador-1; i++){
-				if(juego.getPartidas()[juego.partidaExiste(result)].getCodigo() == result){
-					usuario = new Usuario("Pedro" + i);
-					usuario.setSocketID("ef84e8f844sf");
-					msgUnidad = juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
+			for(let i = 1; i < numeroJugador; i++){
+				if(juego.getPartidas()[0].getCodigo() == result.codigoPartida){
+					msgUnidad = juego.getPartidas()[0].unirAPartida("Pedro" + i);
+					expect(msgUnidad.msg).toEqual("Se ha unidado a la partida");
+					expect(msgUnidad.unida).toEqual(true);
+					expect(juego.getPartidas()[0].getUsuarios()[i].getId()).toEqual(i);
 					expect(msgUnidad.msg).toEqual("Se ha unidado a la partida");
 				}
 			}
 			expect(juego.getPartidas()[0].getUsuarios().length).toEqual(numeroJugador);
-			usuario = new Usuario("Pedro"+numeroJugador++);
-			usuario.setSocketID("ef84e8f844sf");
-			msgUnidad = juego.getPartidas()[0].fase.agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
+			msgUnidad = juego.getPartidas()[0].unirAPartida("Pedro"+numeroJugador++);
 			expect(msgUnidad.msg).toEqual("Partida con maximo usuario");
-			numeroJugador--;
 		});
 
-		it("Abandonar partida en fase Inicial o Completado y comprobar si owner quita hay un nuevo owner", function(){
-			for(let i = 0; i < numeroJugador-1; i++){
-				let usuario = new Usuario("Pedro" + i);
-				usuario.setSocketID("ef84e8f844sf");
-				juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
-			}
-			expect(juego.getPartidas()[0].abandonarPartida(1).msg).toEqual("Pedro0 ha quitado la partida");
+		it("Abandonar partida en fase Inicial o Completado y comprobar si owner quita hay un nuevo owner y comproba si Ids se actualizan", function(){
+			for(let i = 1; i < numeroJugador; i++)
+				juego.getPartidas()[0].unirAPartida("Pedro" + i);
+			
+			expect(juego.getPartidas()[0].abandonarPartida(1).msg).toEqual("Pedro1 ha quitado la partida");
 			expect(juego.getPartidas()[0].getFase().getEstado()).toEqual("Inicial");
 			expect(juego.getPartidas()[0].getUsuarios().length).toEqual(numeroJugador-1);
-			expect(juego.getPartidas()[0].abandonarPartida(0).msg).toEqual("Pepe ha quitado la partida. Pedro1 es el nuevo owner de la partida");
-			expect(juego.getPartidas()[0].getNickOwner().getIsOwner()).toEqual(juego.partidas[0].getUsuarios()[0].getIsOwner());
+			expect(juego.getPartidas()[0].abandonarPartida(0).msg).toEqual("Pepe ha quitado la partida. Pedro2 es el nuevo owner de la partida");
 			expect(juego.getPartidas()[0].getUsuarios().length).toEqual(numeroJugador-2);
+			juego.getPartidas()[0].getUsuarios().forEach((usuario,index) => expect(usuario.getId()).toEqual(index));
 		});
 
 		it("Usuarios reciben un papel y una conjunto de missiones",function(){
-			for(let i = 0; i < numeroJugador-1; i++){
-				let usuario = new Usuario("Pedro" + i);
-				usuario.setSocketID("ef84e8f844sf");
-				juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
+			for(let i = 1; i < numeroJugador; i++){
+				juego.getPartidas()[0].unirAPartida("Pedro" + i);
 			}
 			expect(juego.getPartidas()[0].getFase().validarPartida(juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios()).msg).toEqual("Partida preparada a empezar");
 			for(let i = 0; i < juego.getPartidas()[0].getUsuarios().length; i++){
@@ -98,9 +98,8 @@ describe("El juego del impostor",function(){
 		it("Comprobar hay un impostor entre 4-6 usarios y dos entre 7-10",function(){
 			let numImpostor = 0;
 			let numInocente = 0;
-			for(let i = 0; i < numeroJugador-1; i++){
-				let usuario = new Usuario("Pedro" + i, i.toString());
-				juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());		
+			for(let i = 1; i < numeroJugador; i++){
+				juego.getPartidas()[0].unirAPartida("Pedro" + i);
 			}
 			juego.getPartidas()[0].iniciarPartida();
 			let numUsuariosTab = juego.getPartidas()[0].getUsuarios().length;
@@ -114,11 +113,9 @@ describe("El juego del impostor",function(){
 		});
 
 		it("Pepe inicia la partida",function(){
-			for(let i = 0; i < numeroJugador-1; i++){
-				let usuario = new Usuario("Pedro" + i);
-				juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
-			}
-			juego.getPartidas()[0].getFase().validarPartida(juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
+			for(let i = 1; i < numeroJugador; i++)
+				juego.getPartidas()[0].unirAPartida("Pedro" + i);
+			
 			let msgIniciar = juego.getPartidas()[0].iniciarPartida();
 			expect(msgIniciar.msg).toEqual("La partida ha empezado");
 			expect(juego.getPartidas()[0].getFase().getEstado()).toEqual("Jugando");
@@ -127,11 +124,9 @@ describe("El juego del impostor",function(){
 
 	describe("Los jugadores estan en la fase de jugando y pueden hacer cosas y votar (fase Votacion)",function(){
 		beforeEach(function() {
-			result = juego.crearPartida(numeroJugador,socketId,owner).codigoPartida;
-			for(let i = 0; i < numeroJugador-1; i++){
-				usuario = new Usuario("Pedro" + i);
-				usuario.setSocketID(socketId);
-				juego.getPartidas()[0].getFase().agregarUsuario(usuario,juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
+			result = juego.crearPartida(numeroJugador,owner);
+			for(let i = 1; i < numeroJugador; i++){
+				juego.getPartidas()[0].unirAPartida("Pedro" + i);
 			}
 			juego.getPartidas()[0].getFase().validarPartida(juego.getPartidas()[0].getUsuarios(),juego.getPartidas()[0].getNumUsuarios());
 			let msgIniciar = juego.getPartidas()[0].iniciarPartida();

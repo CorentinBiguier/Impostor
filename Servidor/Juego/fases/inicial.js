@@ -1,7 +1,3 @@
-/*
-* The initial phase of the game. 
-*
-*/
 module.exports = class Inicial {
 	constructor(){
 		this.estado = "Inicial";
@@ -10,7 +6,7 @@ module.exports = class Inicial {
 	agregarUsuario(nick,usuarios,maximo){
 		if(usuarios.length != maximo){
 			usuarios.push(nick);
-			return {"msg": "Se ha unidado a la partida","unida":true};
+			return {"msg": "Se ha unidado a la partida","unida":true,"id":nick.getId()};
 		}
 		else
 			return {"msg": "Partida con maximo usuario","unida":false};

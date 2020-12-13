@@ -1,7 +1,3 @@
-/*
-* This is the fase in game.
-*
-*/
 module.exports = class Jugando{
 	constructor(){
 		this.estado = "Jugando";
@@ -11,14 +7,15 @@ module.exports = class Jugando{
 		if(nickImpostor.getTripulacion().getPapel() == true){
 			nickMata.setIsAlive(false);
 			return {"matar": "Has matado : "+nickMata.getNombre()};
-		}
+		} else
+			return{"msg":"No puedes hacer este accion"};
 	} // metodo terminado, matar alguien
 
 	mandarUnaVota(nick){
 		if(nick.getIsAlive() == true)
 			return {"vota": true};
 		else
-			return {"vota": false};
+			return {"vota": false, "msg":"No puedes mandar una vota"};
 	} //metodo terminado, para mandar una votacion
 
 	//sabotar(nick)

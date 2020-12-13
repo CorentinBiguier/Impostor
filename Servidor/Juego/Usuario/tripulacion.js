@@ -1,7 +1,3 @@
-/*
-* For define the survivor 
-*
-*/
 module.exports = class tripulacion{
 	constructor(){
 		this.papel = false;

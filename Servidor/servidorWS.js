@@ -1,8 +1,3 @@
-/*
-* Here is for controle the server, is here where I generate the differents socket
-*
-*/
-
 var Usuario = require("./Juego/Usuario/Usuario.js");
 var msg = "";
 
@@ -16,6 +11,7 @@ module.exports = class ServidorWS{
 			servidor.msgSocketOnConnection(servidor,socket,juego);
 			servidor.msgSocketOnCrearPartida(servidor,socket,juego);
 			servidor.msgSocketOnUnirAPartida(servidor,socket,juego);
+			servidor.msgSocketAbandonarPartida(servidor,socket,juego);
 			servidor.msgSocketOnIniciarPartida(servidor,socket,juego);
 		});
 	}
@@ -31,7 +27,7 @@ module.exports = class ServidorWS{
 
 	msgSocketOnCrearPartida(servidor,socket,juego){
 		socket.on("crearPartida", (num,nombre) => {
-			let result = juego.crearPartida(num,socket.id,nombre);
+			let result = juego.crearPartida(parseInt(num),nombre);
 			if(!("msg" in result)){
 				console.log("Nueva partida : "+result.codigoPartida);
 				socket.leave("acogida");
@@ -39,9 +35,8 @@ module.exports = class ServidorWS{
 				servidor.serverEnviarACliente(socket,"partidaCreada",{"nombre":nombre,"codigo":result.codigoPartida,"isOwner":true});
 				servidor.serverEnviarARoom(socket,"acogida","nuevaPartidaDisponible",{"codigo":result.codigoPartida,"numJug":1,"numJugMax":num});
 			}
-			else{
+			else
 				servidor.serverEnviarACliente(socket,"partidaCreada",result);
-			}
 		});
 	} //metodo terminado, crear -> ir en lobby -> enviar nueva partida a otro jugadores en acogida
 
@@ -53,34 +48,48 @@ module.exports = class ServidorWS{
 				servidor.serverEnviarACliente(socket,"unidoAPartida",{"msg":index.msg});
 			} else {
 				let partida = juego.getPartidas()[index];
-				msg = partida.unirAPartida(nick,socket.id);
+				msg = partida.unirAPartida(nick);
 				if(msg.unida == false){
 					console.log("Partida completa: "+codigo);
 					servidor.serverEnviarACliente(socket,"unidoAPartida",{"msg":msg.msg});
 				} else {
 					let usuarios = [];
+					let ids = [];
 					console.log(nick + " se unida a la partida con el codigo : " + codigo);
-					partida.getUsuarios().forEach(usuario => usuarios.push(usuario.getNombre()));
 					socket.leave("acogida");
 					socket.join(codigo);
-					msg = {"nombre":partida.getNickOwner().getNombre(),"codigo":partida.getCodigo(),"usuarios":usuarios};
+					partida.getUsuarios().forEach(usuario => {usuarios.push(usuario.getNombre()); ids.push(usuario.getId())});
+					msg = {"nombre":partida.getUsuarios()[partida.getNickOwner()].getNombre(),"codigo":partida.getCodigo(),"usuarios":usuarios, "ids":ids,"id":msg.id};
 					servidor.serverEnviarACliente(socket,"unidoAPartida",msg);
-					servidor.serverEnviarARoom(socket,codigo,"UsuarioSeUnidaAPartida",{"nombre":nick,"estadoPartida":servidor.getEstadoPartida(juego,index),"codigo":codigo});
+					servidor.serverEnviarARoom(socket,codigo,"UsuarioSeUnidaAPartida",{"nombre":nick,"estadoPartida":servidor.getEstadoPartida(juego,index),"codigo":codigo,"ids":ids});
 					servidor.serverEnviarARoom(socket,"acogida","actualizarNumJug",{"codigo":partida.getCodigo(),"numJug":partida.getUsuarios().length,"numJugMax":partida.getNumUsuarios()});
 				}
 			}
 		});
 	} //metodo terminado -> unir a partida, enviar numJug para refrescar en acogida numero usuario en una partida
 
+	msgSocketAbandonarPartida(servidor,socket,juego){
+		socket.on("abandonarPartida", (codigo,idBorrada) => {
+			var index = juego.partidaExiste(codigo)
+			let partida = juego.getPartidas()[index];
+			partida.abandonarPartida(idBorrada);
+			servidor.serverEnviarARoom(socket,codigo,"UnUsuarioAbandonaPartida",idBorrada);
+		});
+	}
+
 	msgSocketOnIniciarPartida(servidor,socket,juego){
-		socket.on("iniciarPartida",function(codigo){
+		socket.on("iniciarPartida", (codigo,id) => {
 			var index = juego.partidaExiste(codigo);
 			if(index.hasOwnProperty("msg")){
 				console.log("No existe codigo "+codigo);
 				servidor.serverEnviarACliente(socket,"unidoAPartida",{"msg":index.msg});
 			} else {
-				let result = juego.getPartidas()[index].iniciarPartida();
-				servidor.serverEnviarATodosEnRoom(codigo,"partidaIniciada",true);
+				let isOwner = juego.comprobarOwner(index,id)
+				if(id = isOwner){
+					let result = juego.getPartidas()[index].iniciarPartida();
+					servidor.serverEnviarATodosEnRoom(codigo,"partidaIniciada",true);
+				} else
+					servidor.serverEnviarACliente(codigo,"partidaIniciada",isOwner.msg);
 			}
 		});
 	} 

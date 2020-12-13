@@ -1,10 +1,4 @@
-/*
-* Here is for all the function who rule the game 
-*
-*/
-
 //Esta clase sirve para gestionar la partida
-//Cambiar de fase, abandonar partida, actualizar la lista de usuarios
 var randomInt = require("./utils/randomInt.js");
 var tripulacion = require("./Usuario/tripulacion.js");
 var Missiones = require("./Usuario/missiones.js");
@@ -14,31 +8,47 @@ var Jugando = require("./fases/Jugando.js");
 var Votacion = require("./fases/votacion.js");
 
 module.exports = class Partida {
-	constructor(numUsuario,nickOwner){
-		this.fase = null;
-		this.numUsuario = numUsuario; //numero de usuarios
-		this.nickOwner = nickOwner; //Usuario owner
-		this.usuarios = []; //array of Usuario
-		this.codigo = "";
+	constructor(numUsuario){
+		this.fase = null; //actual fase de la partida (objeto)
+		this.numUsuario = numUsuario; //numero de usuarios (number)
+		this.nickOwner = 0; //Usuario owner = 0 porque primero usuario en el array usuarios (number)
+		this.usuarios = []; //array of Usuario (array)
+		this.codigo = ""; //codigo de la partida (string)
+		this.Uids = 0; //numero total de Uids (number)
 	}
 
-	unirAPartida(nick,socketID){
+	unirAPartida(nick){
 		let usuario = new Usuario(nick);
-		usuario.setSocketID(socketID);
+		this.asignarUid(usuario);
 		return this.fase.agregarUsuario(usuario,this.usuarios,this.numUsuario);
-	} //metodo terminado, para anadir un usuario a la partiad
+	} //metodo terminado, para anadir un usuario a la partida
+
+	asignarUid(usuario){
+		usuario.setId(this.Uids);
+		this.Uids++;
+		if(this.Uids == this.numUsuario)
+			this.Uids--;
+	} //metodo terminado para definir un Uid
+
+	updateUidIfAlguienAbandona(){
+		this.Uids--;
+		if(this.Uids < 0)
+			this.Uids = 0; //evitar -1 si owner quita
+
+		this.usuarios.forEach((usuario,index) => usuario.setId(index));
+	} //metodo terminado para actualizar Uid
 
 	abandonarPartida(nick){
 		if(this.fase.getEstado() == "Inicial" || this.fase.getEstado() == "Completado"){
 			if(this.usuarios[nick] != this.usuarios[0]){
 				let nombre = this.deleteUsuario(nick);
+				this.updateUidIfAlguienAbandona();
 				return {"msg": nombre +" ha quitado la partida"};
 			} else {
 				let nombre = this.deleteUsuario(nick);
-				this.nickOwner = this.usuarios[0];
-				this.nickOwner.setIsOwner(true);
 				this.usuarios[0].setIsOwner(true);
-				return {"msg": nombre +" ha quitado la partida. " + this.nickOwner.nombre +" es el nuevo owner de la partida"};
+				this.updateUidIfAlguienAbandona();
+				return {"msg": nombre +" ha quitado la partida. " + this.usuarios[0].nombre +" es el nuevo owner de la partida"};
 			}
 		} else
 			return {"msg":"No es posible quitar la partida"};
@@ -92,7 +102,7 @@ module.exports = class Partida {
 
 	comprobarNumImpOIn(numImpoIn){
 		numImpoIn = [0,0];
-		this.usuarios.forEach(function(usuario){
+		this.usuarios.forEach(usuario => {
 			if(usuario.getIsAlive() == true){
 				if(usuario.getTripulacion().getPapel() == true)
 					numImpoIn[1]++;
@@ -115,7 +125,6 @@ module.exports = class Partida {
 			return {"msg":"Partida termina con egalidad"};
 		else
 			return {"msg":"La partida continua"};
-		return {"msg":msg};
 	} //metodo terminado, para comprobar quien gagna
 	//---------------------------------------------------------------------------------
 
@@ -146,5 +155,9 @@ module.exports = class Partida {
 
 	setFase(fase){
 		this.fase = fase;
+	}
+
+	getUids(){
+		return this.Uids;
 	}
 }

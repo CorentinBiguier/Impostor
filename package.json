@@ -1,6 +1,6 @@
 {
   "name": "impostor",
-  "version": "1.5.0",
+  "version": "1.0.0",
   "description": "trabajo de procesos",
   "main": "server.js",
   "dependencies": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CorentinBiguier/Impostor.git"
+    "url": "git+https://github.com/MetMS/Impostor.git"
   },
   "keywords": [
     "NodeJS",
@@ -28,10 +28,10 @@
     "JavaScript",
     "Express"
   ],
-  "author": "BIGUIER-Corentin",
+  "author": "MIGNOT-Adrien",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CorentinBiguier/Impostor/issues"
+    "url": "https://github.com/MetMS/Impostor/issues"
   },
-  "homepage": "https://github.com/CorentinBiguier/Impostor#readme"
+  "homepage": "https://github.com/MetMS/Impostor#readme"
 }

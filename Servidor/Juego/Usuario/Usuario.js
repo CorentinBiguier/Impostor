@@ -1,18 +1,15 @@
-/*
-* This is to define a user. 
-* Every usuario have a role
-*/
-
+/*Esta clase sirve para definir un usuario
+el usuario tiene un papel*/
 var Tripulacion = require("./tripulacion.js")
 
 module.exports = class Usuario {
 	constructor(nombre) {
 		this.nombre = nombre;
-		this.tripulacion = new Tripulacion();	//The role of the user
-		this.isOwner = false;					
+		this.tripulacion = new Tripulacion();
+		this.isOwner = false;
 		this.isAlive = true;
 		this.votaContra = 0;
-		this.socketId = null;
+		this.id = 0;
 	}
 	
 //---------Getter de los parametros-------------------
@@ -55,11 +52,11 @@ module.exports = class Usuario {
 			this.votaContra = 0;
 	}
 
-	getSocketID(){
-		return this.socketId;
+	getId(){
+		return this.id;
 	}
 
-	setSocketID(socketId){
-		this.socketId = socketId;
+	setId(id){
+		this.id = id;
 	}
 }

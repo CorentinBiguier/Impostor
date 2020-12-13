@@ -1,7 +1,3 @@
-/*
-* A special phase, for the moment of the game. When the player need to vote to eliminate (or no) someone.
-*
-*/
 var nickEliminado = null; 
 module.exports = class Votacion{
 	constructor(){
@@ -14,9 +10,8 @@ module.exports = class Votacion{
 		if(nick.getIsAlive() == true){
 			nickEligido.setVotaContra(true);
 			return {"msg": nick.getNombre() + " ha votado contra: "+nickEligido.getNombre()};
-		} else {
+		} else 
 			return {"msg": "No puedes votar porque eres muerto"};	
-		}
 	} //metodo terminado, para vota contra alguien
 
 	skip(nick){
@@ -32,10 +27,9 @@ module.exports = class Votacion{
 		}
 		else if (nickEliminado.getTripulacion().getPapel() == true){
 			nickEliminado.setIsAlive(false);
-			return {"msg": "Un impostor es eliminado"}
-		} else {
-			return {"msg":"Votacion termina con egalidad"}
-		}
+			return {"msg": "Un impostor es eliminado"};
+		} else 
+			return {"msg":"Votacion termina con egalidad, nadie muere"};
 	} //metodo terminado, para decir quien es eliminado
 
 	getMasVotado(usuarios){
@@ -45,9 +39,8 @@ module.exports = class Votacion{
 		usuarios.forEach(usuario => {
 			if(max == usuario.getVotaContra()){
 				egalidad++;
-				if(egalidad == 1){
+				if(egalidad == 1)
 					nickEliminado = usuario;
-				}
 				else
 					nickEliminado = null;
 			}
