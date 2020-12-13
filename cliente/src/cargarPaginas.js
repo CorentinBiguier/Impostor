@@ -251,14 +251,14 @@ function cargarSalaEspera(data){
 	fluidContainer.appendChild(container);
 	document.getElementById("lobby").appendChild(fluidContainer);
 
-	var img = document.createElement("img"); 
-	img.src = "img/loading.gif";
+	// img 	= document.createElement("img"); 
+	// img.src = "img/loading.gif";
 
 	div 		 	= document.createElement("div");
 	div.className 	= "container-fluid";
 	div.id 		  	= "listaJugadores";
 
-	div.appendChild(img);
+	// div.appendChild(img);
 
 	document.getElementById("lobby").appendChild(div);
 	alerta("Accesso a sala de espera","alert-success");
