@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MetMS/Impostor.git"
+    "url": "git+https://github.com/CorentinBiguier/Impostor.git"
   },
   "keywords": [
     "NodeJS",
@@ -28,10 +28,10 @@
     "JavaScript",
     "Express"
   ],
-  "author": "MIGNOT-Adrien",
+  "author": "Corentin-Biguier",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MetMS/Impostor/issues"
+    "url": "https://github.com/CorentinBiguier/Impostor/issues"
   },
-  "homepage": "https://github.com/MetMS/Impostor#readme"
+  "homepage": "https://github.com/CorentinBiguier/Impostor#readme"
 }
