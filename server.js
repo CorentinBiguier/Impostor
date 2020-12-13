@@ -25,11 +25,11 @@ app.get('/', function (request, response) {
     response.send(contenido);
 });
 
-// app.get("/juego",function(request,response){
-// 	var contenido = fs.readFileSync(__dirname + "/Cliente/game2d/index-game.html"); 
-//     response.setHeader("Content-type", "text/html");
-//     response.send(contenido);
-// });
+app.get("/juego",function(request,response){
+	var contenido = fs.readFileSync(__dirname + "/Cliente/game2d/index-game.html"); 
+    response.setHeader("Content-type", "text/html");
+    response.send(contenido);
+});
 
 // server.listen(app.get('port'), function () {
 // 	console.log('Node app is running on port', app.get('port'));
