@@ -31,9 +31,9 @@ app.get("/juego",function(request,response){
     response.send(contenido);
 });
 
-// server.listen(app.get('port'), function () {
-// 	console.log('Node app is running on port', app.get('port'));
-// });
+ server.listen(app.get('port'), function () {
+ 	console.log('Node app is running on port', app.get('port'));
+ });
 
 // var servidorWS = new wss(io);
 // servidorWS.lanzarSocketSrv(servidorWS,juego);
