@@ -1,5 +1,10 @@
+/*
+* Here is for controle the server, is here where I generate the differents socket
+*
+*/
+
 var Usuario = require("./Juego/Usuario/Usuario.js");
-var msg = "";
+var msg 	= "";
 
 module.exports = class ServidorWS{
 	constructor(io){

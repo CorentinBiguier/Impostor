@@ -1,4 +1,10 @@
+/*
+* Here is for all the function who rule the game 
+*
+*/
+
 //Esta clase sirve para gestionar la partida
+//Cambiar de fase, abandonar partida, actualizar la lista de usuarios
 var randomInt = require("./utils/randomInt.js");
 var tripulacion = require("./Usuario/tripulacion.js");
 var Missiones = require("./Usuario/missiones.js");

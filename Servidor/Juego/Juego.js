@@ -1,3 +1,7 @@
+/*
+* Here is for all the function who rule the hub of the game.
+*
+*/
 var Partida = require("./Partida.js");
 var Usuario = require("./Usuario/Usuario.js");
 var Inicial = require("./fases/inicial.js")
