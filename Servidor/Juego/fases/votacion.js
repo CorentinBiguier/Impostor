@@ -1,3 +1,8 @@
+/*
+* A special phase, for the moment of the game. When the player need to vote to eliminate (or no) someone.
+*
+*/
+
 var nickEliminado = null; 
 module.exports = class Votacion{
 	constructor(){

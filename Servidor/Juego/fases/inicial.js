@@ -1,3 +1,8 @@
+/*
+* The initial phase of the game. 
+*
+*/
+
 module.exports = class Inicial {
 	constructor(){
 		this.estado = "Inicial";

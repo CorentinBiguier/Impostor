@@ -1,3 +1,8 @@
+/*
+* This is the fase in game.
+*
+*/
+
 module.exports = class Jugando{
 	constructor(){
 		this.estado = "Jugando";

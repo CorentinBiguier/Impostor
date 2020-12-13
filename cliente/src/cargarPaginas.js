@@ -42,7 +42,7 @@ function cargarAcogida(){
 	//creacion de col 1 creacion de partida
 			col 			= document.createElement("div");
 			col.id 			= "creacionPartida";
-			col.className 	= "col-md shadow bg-white rounded mb-5 me-2";
+			col.className 	= "col-md shadow bg-white rounded mb-5 me-2 p-3";
 
 				h1 				= document.createElement("h4");
 				h1.className 	= "mb-4 text-center";
@@ -200,27 +200,35 @@ function refrescarNumeroUsuarioEnPartida(data){
 function cargarSalaEspera(data){
 	//Aqui titulo
 	document.getElementById("acogida").innerHTML = '';
-	div 			= document.createElement("div");
-	div.className 	= "container-fluid";
-	
-	row 		  = document.createElement("div");
-	row.className = "row justify-content-center";
+	fluidContainer 				= document.createElement("div");
+	fluidContainer.className 	= "container-fluid";
+
+	container 			= document.createElement("div");
+	container.className	= "container mb-5 bg-light";
+
+		row 		  = document.createElement("div");
+		row.className = "row justify-content-center";
 
 			h1 				= document.createElement("h1");
 			h1.className 	= "pt-4 text-center";
 			h1.textContent 	= "Sala de espera";
 
-		h3 				= document.createElement("h3");
-		h3.className 	= "pt-4 text-center";
-		h3.textContent 	= "Creador: "+data.nombre+" | Codigo: "+data.codigo;
+			h3 				= document.createElement("h3");
+			h3.className 	= "pt-4 text-center";
+			h3.textContent 	= "Codigo: "+data.codigo;
 
-	row.appendChild(h1);
-	row.appendChild(h3);
+			h4				= document.createElement("h4");
+			h4.className	= "pt-4 text-center fst-italic";
+			h4.textContent 	= "Creador: "+data.nombre;  
+
+		row.appendChild(h1);
+		row.appendChild(h3);
+		row.appendChild(h4);
+		9
+	container.appendChild(row);
 
 	if(data.isOwner == true){
-		//form = document.createElement("form");
-		//form.action = "http://localhost:5000/juego";
-
+		
 			button 			   = document.createElement("button");
 			button.id 		   = "btnEspera";
 			button.className   = "btn btn-primary";
@@ -240,12 +248,17 @@ function cargarSalaEspera(data){
 		row.appendChild(button);
 	}
 
-	div.appendChild(row);
-	document.getElementById("lobby").appendChild(div);
+	fluidContainer.appendChild(container);
+	document.getElementById("lobby").appendChild(fluidContainer);
 
-	div 		  = document.createElement("div");
-	div.className = "container-fluid";
-	div.id 		  = "listaJugadores";
+	var img = document.createElement("img"); 
+	img.src = "img/loading.gif";
+
+	div 		 	= document.createElement("div");
+	div.className 	= "container-fluid";
+	div.id 		  	= "listaJugadores";
+
+	div.appendChild(img);
 
 	document.getElementById("lobby").appendChild(div);
 	alerta("Accesso a sala de espera","alert-success");

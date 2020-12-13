@@ -1,7 +1,11 @@
+/*
+* For define the survivor 
+*
+*/
 module.exports = class tripulacion{
 	constructor(){
-		this.papel = false;
-		this.missiones = null;
+		this.papel 		= false;
+		this.missiones 	= null;
 	}
 
 	setPapel(papel){

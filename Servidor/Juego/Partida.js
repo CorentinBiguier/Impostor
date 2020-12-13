@@ -5,22 +5,22 @@
 
 //Esta clase sirve para gestionar la partida
 //Cambiar de fase, abandonar partida, actualizar la lista de usuarios
-var randomInt = require("./utils/randomInt.js");
+var randomInt 	= require("./utils/randomInt.js");
 var tripulacion = require("./Usuario/tripulacion.js");
-var Missiones = require("./Usuario/missiones.js");
-var Usuario = require("./Usuario/Usuario.js");
-var Inicial = require("./fases/inicial.js");
-var Jugando = require("./fases/Jugando.js");
-var Votacion = require("./fases/votacion.js");
+var Missiones 	= require("./Usuario/missiones.js");
+var Usuario 	= require("./Usuario/Usuario.js");
+var Inicial 	= require("./fases/inicial.js");
+var Jugando 	= require("./fases/Jugando.js");
+var Votacion 	= require("./fases/votacion.js");
 
 module.exports = class Partida {
 	constructor(numUsuario){
-		this.fase = null; //actual fase de la partida (objeto)
+		this.fase 		= null; //actual fase de la partida (objeto)
 		this.numUsuario = numUsuario; //numero de usuarios (number)
-		this.nickOwner = 0; //Usuario owner = 0 porque primero usuario en el array usuarios (number)
-		this.usuarios = []; //array of Usuario (array)
-		this.codigo = ""; //codigo de la partida (string)
-		this.Uids = 0; //numero total de Uids (number)
+		this.nickOwner 	= 0; //Usuario owner = 0 porque primero usuario en el array usuarios (number)
+		this.usuarios 	= []; //array of Usuario (array)
+		this.codigo 	= ""; //codigo de la partida (string)
+		this.Uids 		= 0; //numero total de Uids (number)
 	}
 
 	unirAPartida(nick){

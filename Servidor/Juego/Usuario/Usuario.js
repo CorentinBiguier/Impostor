@@ -1,5 +1,8 @@
-/*Esta clase sirve para definir un usuario
-el usuario tiene un papel*/
+/*
+* This is to define a user. 
+* Every usuario have a role
+*/
+
 var Tripulacion = require("./tripulacion.js")
 
 module.exports = class Usuario {
