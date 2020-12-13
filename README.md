@@ -8,3 +8,6 @@ El trabajo de la asignatura del curso 20-21
 - [X] Iniciar una partida (funcion, y grafico)
 - [ ] Jugar en partida (funcion, no grafico)
 - [ ] Votar en partida (funcion, no grafico)
+- [ ] Ataques en partida
+- [ ] Hacer tarea en partida
+- [ ] multi Jugador 
