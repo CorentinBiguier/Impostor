@@ -17,26 +17,26 @@ app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var juego = new Juego();
+// var juego = new Juego();
 
-app.get('/', function (request, response) {
-    var contenido = fs.readFileSync(__dirname + "/Cliente/index.html"); 
-    response.setHeader("Content-type", "text/html");
-    response.send(contenido);
-});
+// app.get('/', function (request, response) {
+//     var contenido = fs.readFileSync(__dirname + "/Cliente/index.html"); 
+//     response.setHeader("Content-type", "text/html");
+//     response.send(contenido);
+// });
 
-app.get("/juego",function(request,response){
-	var contenido = fs.readFileSync(__dirname + "/Cliente/game2d/index-game.html"); 
-    response.setHeader("Content-type", "text/html");
-    response.send(contenido);
-});
+// app.get("/juego",function(request,response){
+// 	var contenido = fs.readFileSync(__dirname + "/Cliente/game2d/index-game.html"); 
+//     response.setHeader("Content-type", "text/html");
+//     response.send(contenido);
+// });
 
-server.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
-});
+// server.listen(app.get('port'), function () {
+//     console.log('Node app is running on port', app.get('port'));
+// });
 
-var servidorWS = new wss(io);
-servidorWS.lanzarSocketSrv(servidorWS,juego);
+// var servidorWS = new wss(io);
+// servidorWS.lanzarSocketSrv(servidorWS,juego);
 
 //To use in local
 /*app.get("/crearPartida/:num/:nick",function(request,response){
