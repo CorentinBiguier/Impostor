@@ -1,4 +1,4 @@
-import {clienteWS} from "./modulesWS/clienteWS.mjs";
+import {clienteWS} from "./modulesWS/clienteWS.js";
 
 window.cliSck = new clienteWS();
 window.cliSck.initializarSocket();
