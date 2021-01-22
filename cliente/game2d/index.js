@@ -3,7 +3,7 @@
  * Asset Credits:
  *  - Tuxemon, https://github.com/Tuxemon/Tuxemon
  */
-import {movimiento,mandarPapel,emitMatar,emitLanzarVotacion} from "./../root/modulesWS/manageJuego.mjs";
+import {movimiento,mandarPapel,emitMatar,emitLanzarVotacion} from "./../src/modulesWS/manageJuego.js";
 
 var game;
 var teclaA; 
