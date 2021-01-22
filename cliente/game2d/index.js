@@ -82,7 +82,7 @@ function create() {
 
   for(let i = 0; i < window.cliSck.usuarios.length; i++){
   player = this.physics.add
-    .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", "demon-front-walk.001")
+    .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", "demon-front-walk.000")
     .setSize(30, 40)
     .setOffset(0, 24);
   jugadores[i] = player;
@@ -123,7 +123,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-left-walk.",
       start: 0,
-      end: 3,
+      end: 2,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -134,7 +134,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-right-walk.",
       start: 0,
-      end: 3,
+      end: 2,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -145,7 +145,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-front-walk.",
       start: 0,
-      end: 3,
+      end: 2,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -156,7 +156,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-back-walk.",
       start: 0,
-      end: 3,
+      end: 2,
       zeroPad: 3
     }),
     frameRate: 10,
