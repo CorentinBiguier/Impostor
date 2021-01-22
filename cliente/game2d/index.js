@@ -7,7 +7,7 @@ import {movimiento,mandarPapel,emitMatar,emitLanzarVotacion} from "./../src/modu
 
 var game;
 var teclaA; 
-var teclaV;
+var teclaR;
 let cursors;
 let player;
 let jugadores = {};
@@ -82,7 +82,7 @@ function create() {
 
   for(let i = 0; i < window.cliSck.usuarios.length; i++){
   player = this.physics.add
-    .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", window.cliSck.papel+"-front-walk.001")
+    .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", "demon-front-walk.001")
     .setSize(30, 40)
     .setOffset(0, 24);
   jugadores[i] = player;
@@ -119,9 +119,9 @@ function create() {
   // animation manager so any sprite can access them.
   const anims = this.anims;
   anims.create({
-    key: window.cliSck.papel+"-left-walk",
+    key: "demon-left-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: window.cliSck.papel+"-left-walk.",
+      prefix: "demon-left-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -130,9 +130,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: window.cliSck.papel+"-right-walk",
+    key: "demon-right-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: window.cliSck.papel+"-right-walk.",
+      prefix: "demon-right-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -141,9 +141,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: window.cliSck.papel+"-front-walk",
+    key: "demon-front-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: window.cliSck.papel+"-front-walk.",
+      prefix: "demon-front-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -152,9 +152,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: window.cliSck.papel+"-back-walk",
+    key: "demon-back-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: window.cliSck.papel+"-back-walk.",
+      prefix: "demon-back-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -164,7 +164,7 @@ function create() {
   });
   cursors = this.input.keyboard.createCursorKeys();
   teclaA = this.input.keyboard.addKey('a');
-  teclaV = this.input.keyboard.addKey('v');
+  teclaR = this.input.keyboard.addKey('r');
 }
 
 function update(time,delta) {
@@ -201,13 +201,13 @@ function update(time,delta) {
 
     // Update the animation last and give left/right animations precedence over up/down animations
     if (cursors.left.isDown) {
-      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-left-walk", true);
+      jugadores[window.cliSck.id].anims.play("demon-left-walk", true);
     } else if (cursors.right.isDown) {
-      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-right-walk", true);
+      jugadores[window.cliSck.id].anims.play("demon-right-walk", true);
     } else if (cursors.up.isDown) {
-      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-back-walk", true);
+      jugadores[window.cliSck.id].anims.play("demon-back-walk", true);
     } else if (cursors.down.isDown) {
-      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-front-walk", true);
+      jugadores[window.cliSck.id].anims.play("demon-front-walk", true);
     } else {
       jugadores[window.cliSck.id].anims.stop();
     }
@@ -222,13 +222,13 @@ function mover(datos){
     jugadores[datos.remotoId].setY(datos.y);
     jugadores[datos.remotoId].body.velocity.normalize().scale(speed);
       if (datos.direccion == "left") {
-        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-left-walk", true);
+        jugadores[datos.remotoId].anims.play("demon-left-walk", true);
       } else if (datos.direccion == "right") {
-        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-right-walk", true);
+        jugadores[datos.remotoId].anims.play("demon-right-walk", true);
       } else if (datos.direccion == "up") {
-        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-back-walk", true);
+        jugadores[datos.remotoId].anims.play("demon-back-walk", true);
       } else if (datos.direccion == "down") {
-        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-front-walk", true);
+        jugadores[datos.remotoId].anims.play("demon-front-walk", true);
       } else {
           jugadores[datos.remotoId].anims.stop();
       }
@@ -246,7 +246,7 @@ function kill(sprite,jugador){
   if(teclaA.isDown && window.cliSck.role == true){
     muerto.add(jugador);
     remoto.remove(jugador);
-    jugador.setTexture("deads",window.cliSck.papel+"-dead");
+    jugador.setTexture("deads","demon-dead");
     emitMatar(jugador.id);
   }
 }
@@ -254,11 +254,11 @@ function kill(sprite,jugador){
 function fijarCuerpoMuerto(idMuerto){
   muerto.add(jugadores[idMuerto]);
   remoto.add(jugadores[idMuerto]);
-  jugadores[idMuerto].setTexture("deads",window.cliSck.papel+"-dead");
+  jugadores[idMuerto].setTexture("deads","demon-dead");
 }
 
 function votar(sprite,muerto){
-  if(teclaV.isDown)
+  if(teclaR.isDown)
     emitLanzarVotacion();
 }
 
