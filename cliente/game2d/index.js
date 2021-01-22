@@ -3,6 +3,21 @@
  * Asset Credits:
  *  - Tuxemon, https://github.com/Tuxemon/Tuxemon
  */
+import {movimiento,mandarPapel,emitMatar,emitLanzarVotacion} from "./../root/modulesWS/manageJuego.mjs";
+
+var game;
+var teclaA; 
+var teclaV;
+let cursors;
+let player;
+let jugadores = {};
+var text;
+var remoto;
+var muerto;
+
+function lanzarJuego(){
+  game = new Phaser.Game(config);
+}
 
 const config = {
   type: Phaser.AUTO,
@@ -23,21 +38,18 @@ const config = {
   }
 };
 
-const game = new Phaser.Game(config);
-let cursors;
-let player;
-let showDebug = false;
-
 function preload() {
-  this.load.image("tiles", "./cliente/game2d/assets/tilesets/tuxmon-sample-32px-extruded.png");
-  this.load.tilemapTiledJSON("map", "./cliente/game2d/assets/tilemaps/tuxemon-town.json");
+  this.load.image("tiles", "./Cliente/game2d/assets/tilesets/tuxmon-sample-32px-extruded.png");
+  this.load.tilemapTiledJSON("map", "./Cliente/game2d/assets/tilemaps/tuxemon-town.json");
 
   // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
   // the player animations (walking left, walking right, etc.) in one image. For more info see:
   //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
   // If you don't use an atlas, you can do the same thing with a spritesheet, see:
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
-  this.load.atlas("atlas", "./cliente/game2d/assets/atlas/atlas.png", "./cliente/game2d/assets/atlas/atlas.json");
+  //this.load.atlas("atlas", "./Cliente/game2d/assets/atlas/atlas.png", "./Cliente/game2d/assets/atlas/atlas.json");
+  this.load.atlas("atlas", "./Cliente/game2d/assets/atlas/texture.png", "./Cliente/game2d/assets/atlas/texture.json");
+  this.load.atlas("deads", "./Cliente/game2d/assets/atlas/deads.png", "./Cliente/game2d/assets/atlas/deads.json");
 }
 
 function create() {
@@ -65,21 +77,51 @@ function create() {
 
   // Create a sprite with physics enabled via the physics system. The image used for the sprite has
   // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
+  remoto = this.add.group();
+  muerto = this.add.group();
+
+  for(let i = 0; i < window.cliSck.usuarios.length; i++){
   player = this.physics.add
-    .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+    .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", window.cliSck.papel+"-front-walk.001")
     .setSize(30, 40)
     .setOffset(0, 24);
+  jugadores[i] = player;
+  jugadores[i].id = i;
 
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(player, worldLayer);
+
+  if(window.cliSck.id == i){
+    const camera = this.cameras.main;
+    camera.startFollow(jugadores[i]);
+    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  } else{
+    remoto.add(jugadores[i]);
+  }
+  
+
+  text = this.add.text(16, 16, 'No papel', {
+    font: "18px monospace",
+    fill: "#000000",
+    padding: { x: 20, y: 10 },
+    backgroundColor: "#ffffff"
+  })
+  .setScrollFactor(0)
+  .setDepth(30);
+
+  mandarPapel();
+}
+
+  this.physics.add.overlap(jugadores[window.cliSck.id],remoto,kill);
+  this.physics.add.overlap(jugadores[window.cliSck.id],muerto,votar);
 
   // Create the player's walking animations from the texture atlas. These are stored in the global
   // animation manager so any sprite can access them.
   const anims = this.anims;
   anims.create({
-    key: "misa-left-walk",
+    key: window.cliSck.papel+"-left-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: "misa-left-walk.",
+      prefix: window.cliSck.papel+"-left-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -88,9 +130,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: "misa-right-walk",
+    key: window.cliSck.papel+"-right-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: "misa-right-walk.",
+      prefix: window.cliSck.papel+"-right-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -99,9 +141,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: "misa-front-walk",
+    key: window.cliSck.papel+"-front-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: "misa-front-walk.",
+      prefix: window.cliSck.papel+"-front-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -110,9 +152,9 @@ function create() {
     repeat: -1
   });
   anims.create({
-    key: "misa-back-walk",
+    key: window.cliSck.papel+"-back-walk",
     frames: anims.generateFrameNames("atlas", {
-      prefix: "misa-back-walk.",
+      prefix: window.cliSck.papel+"-back-walk.",
       start: 0,
       end: 3,
       zeroPad: 3
@@ -120,82 +162,104 @@ function create() {
     frameRate: 10,
     repeat: -1
   });
-
-  const camera = this.cameras.main;
-  camera.startFollow(player);
-  camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
   cursors = this.input.keyboard.createCursorKeys();
-
-  // Help text that has a "fixed" position on the screen
-  this.add
-    .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
-      font: "18px monospace",
-      fill: "#000000",
-      padding: { x: 20, y: 10 },
-      backgroundColor: "#ffffff"
-    })
-    .setScrollFactor(0)
-    .setDepth(30);
-
-  // Debug graphics
-  this.input.keyboard.once("keydown_D", event => {
-    // Turn on physics debugging to show player's hitbox
-    this.physics.world.createDebugGraphic();
-
-    // Create worldLayer collision graphic above the player, but below the help text
-    const graphics = this.add
-      .graphics()
-      .setAlpha(0.75)
-      .setDepth(20);
-    worldLayer.renderDebug(graphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    });
-  });
+  teclaA = this.input.keyboard.addKey('a');
+  teclaV = this.input.keyboard.addKey('v');
 }
 
-function update(time, delta) {
-  const speed = 175;
-  const prevVelocity = player.body.velocity.clone();
+function update(time,delta) {
+  if(window.cliSck.isAlive == true){
+    const speed = 175;
+    //const prevVelocity = jugadores[window.cliSck.id].body.velocity.clone();
+    var direccion = "stop";
 
-  // Stop any previous movement from the last frame
-  player.body.setVelocity(0);
+    // Stop any previous movement from the last frame
+    jugadores[window.cliSck.id].body.setVelocity(0);
 
-  // Horizontal movement
-  if (cursors.left.isDown) {
-    player.body.setVelocityX(-speed);
-  } else if (cursors.right.isDown) {
-    player.body.setVelocityX(speed);
-  }
+    // Horizontal movement
+    if (cursors.left.isDown) {
+      jugadores[window.cliSck.id].body.setVelocityX(-speed);
+      direccion = "left";
+    } else if (cursors.right.isDown) {
+      jugadores[window.cliSck.id].body.setVelocityX(speed);
+      direccion = "right";
+    }
 
-  // Vertical movement
-  if (cursors.up.isDown) {
-    player.body.setVelocityY(-speed);
-  } else if (cursors.down.isDown) {
-    player.body.setVelocityY(speed);
-  }
+    // Vertical movement
+    if (cursors.up.isDown) {
+      jugadores[window.cliSck.id].body.setVelocityY(-speed);
+      direccion = "up";
+    } else if (cursors.down.isDown) {
+      jugadores[window.cliSck.id].body.setVelocityY(speed);
+      direccion = "down";
+    }
 
-  // Normalize and scale the velocity so that player can't move faster along a diagonal
-  player.body.velocity.normalize().scale(speed);
+    // Normalize and scale the velocity so that player can't move faster along a diagonal
+    jugadores[window.cliSck.id].body.velocity.normalize().scale(speed);
 
-  // Update the animation last and give left/right animations precedence over up/down animations
-  if (cursors.left.isDown) {
-    player.anims.play("misa-left-walk", true);
-  } else if (cursors.right.isDown) {
-    player.anims.play("misa-right-walk", true);
-  } else if (cursors.up.isDown) {
-    player.anims.play("misa-back-walk", true);
-  } else if (cursors.down.isDown) {
-    player.anims.play("misa-front-walk", true);
-  } else {
-    player.anims.stop();
+    movimiento(direccion,jugadores[window.cliSck.id].x,jugadores[window.cliSck.id].y);
 
-    // If we were moving, pick and idle frame to use
-    if (prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
-    else if (prevVelocity.x > 0) player.setTexture("atlas", "misa-right");
-    else if (prevVelocity.y < 0) player.setTexture("atlas", "misa-back");
-    else if (prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
+    // Update the animation last and give left/right animations precedence over up/down animations
+    if (cursors.left.isDown) {
+      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-left-walk", true);
+    } else if (cursors.right.isDown) {
+      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-right-walk", true);
+    } else if (cursors.up.isDown) {
+      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-back-walk", true);
+    } else if (cursors.down.isDown) {
+      jugadores[window.cliSck.id].anims.play(window.cliSck.papel+"-front-walk", true);
+    } else {
+      jugadores[window.cliSck.id].anims.stop();
+    }
   }
 }
+
+function mover(datos){
+  if(jugadores[datos.remotoId] != "undefined"){
+    const speed = 175;
+    jugadores[datos.remotoId].body.setVelocity(0);
+    jugadores[datos.remotoId].setX(datos.x);
+    jugadores[datos.remotoId].setY(datos.y);
+    jugadores[datos.remotoId].body.velocity.normalize().scale(speed);
+      if (datos.direccion == "left") {
+        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-left-walk", true);
+      } else if (datos.direccion == "right") {
+        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-right-walk", true);
+      } else if (datos.direccion == "up") {
+        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-back-walk", true);
+      } else if (datos.direccion == "down") {
+        jugadores[datos.remotoId].anims.play(window.cliSck.papel+"-front-walk", true);
+      } else {
+          jugadores[datos.remotoId].anims.stop();
+      }
+  }
+}
+
+function fijarPapel(isImpostor){
+  if(isImpostor == true)
+    text.setText("Eres un Impostor");
+  else
+    text.setText("Eres un Inoncente");
+}
+
+function kill(sprite,jugador){
+  if(teclaA.isDown && window.cliSck.role == true){
+    muerto.add(jugador);
+    remoto.remove(jugador);
+    jugador.setTexture("deads",window.cliSck.papel+"-dead");
+    emitMatar(jugador.id);
+  }
+}
+
+function fijarCuerpoMuerto(idMuerto){
+  muerto.add(jugadores[idMuerto]);
+  remoto.add(jugadores[idMuerto]);
+  jugadores[idMuerto].setTexture("deads",window.cliSck.papel+"-dead");
+}
+
+function votar(sprite,muerto){
+  if(teclaV.isDown)
+    emitLanzarVotacion();
+}
+
+export {lanzarJuego,mover,fijarPapel,fijarCuerpoMuerto};

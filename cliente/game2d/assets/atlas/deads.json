@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "red-dead": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 62,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 8,
+        "w": 62,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 72,
+        "h": 52
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "rob-dead": {
+      "frame": {
+        "x": 65,
+        "y": 1,
+        "w": 62,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 8,
+        "w": 62,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 72,
+        "h": 52
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "texture.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 128,
+      "h": 36
+    },
+    "scale": 1
+  }
+}

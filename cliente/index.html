@@ -1,28 +1,44 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="utf-8">
-	<title>Impostor</title>
-	<link rel="shortcut icon" href="#">
-</head>
-<body>
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		
+		<title>Impostor</title>
+		<link rel="shortcut icon" href="#">
+	</head>
+	<body>
 
-<div id="alert"></div>
-<div id="acogida"></div>
-<div id="lobby"></div>
+		<div id="alert"></div>
+		<div id="acogida" class="container-sm"></div>
+		<div id="lobby" class="container-sm"></div>
+		<div id="game-container"></div>
 
-<!-- libraries -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="staticBackdropLabel">Votar contra alguien</h5>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip</button>
+				  <button type="button" class="btn btn-primary">Votar</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
 
-<!-- Scripts made -->
-<script src="cliente/src/clienteRest.js"></script>
-<script src="cliente/src/cargarPaginas.js"></script>
-<script src="cliente/src/clienteWS.js"></script>
-<script src="cliente/src/dataSideClienteWS.js"></script>
+		<!-- libraries -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.js"></script>
 
-</body>
+		<!-- Scripts made -->
+		<script type="module" src="Cliente/root/main.mjs"></script>
+
+	</body>
 </html>
