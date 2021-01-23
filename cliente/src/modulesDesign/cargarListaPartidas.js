@@ -2,23 +2,23 @@ import {cargarAcogida}  from "./acogidaCrearPartida.js";
 import {dataUnirAPartida} from "./../modulesRecuperarDatos/datosListaPartidas.js";
 let btn; let sp;
 
-function cargarListaPartidas(h1,input,button,row){
+function cargarListaPartidas(h2,input,button,row){
     document.getElementById("zonaFormulario").innerHTML = "";
-    h1 = document.createElement("h1");
-	h1.className = "mb-4 text-center";
-    h1.textContent = "Lista de partida";
-    document.getElementById("zonaFormulario").appendChild(h1);
+    h2 = document.createElement("h2");
+	h2.className = "mb-4 text-center";
+    h2.textContent = "Lista de partida";
+    document.getElementById("zonaFormulario").appendChild(h2);
 
     input = document.createElement("input");
 	input.id = "nombreJugador";
-	input.className = "mb-4 form-control form-control-lg";
+	input.className = "mb-4 form-control form-control-lg w-75";
 	input.type = "text";
 	input.placeholder = "Escribe tu nombre";
 	document.getElementById("zonaFormulario").appendChild(input);
 
     button = document.createElement("button");
 	button.id = "btnCrearPartida";
-	button.className = "mb-4 btn btn-primary btn-lg";
+	button.className = "mb-4 btn btn-primary btn-lg w-25";
 	button.onclick = function(){cargarAcogida()};
 	button.textContent = "Volver a crear Partida";
 	document.getElementById("zonaFormulario").appendChild(button);

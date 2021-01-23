@@ -9,20 +9,22 @@ function launchMainDesign(){
 
     //Aqui titulo
 	div = document.createElement("div");
-	div.className = "container";
+	div.className = "container mt-3 shadow-lg p-3 mb-5 bg-white rounded";
 		h1 = document.createElement("h1");
 		h1.className = "pt-4 text-center";
-		h1.textContent = "Bienvenida al juego de Impostor";
+		h1.textContent = "Bienvenida en el juego del : Impostor";
 	div.appendChild(h1);
 	document.getElementById("acogida").appendChild(div);
 
 	//Aqui creacion del formulario de creacion de partida
 	div = document.createElement("div");
-    div.className = "container";
+    document.getElementById("acogida").appendChild(div);
+
+    div.className = "container w-75 mt-3 shadow-lg p-3 mb-5 bg-white rounded";
     div.id = "containerZonaFormulario";
         row = document.createElement("div");
         row.id = "zonaFormulario";
-        row.className = "my-sm-5 row";
+        row.className = "my-sm-5 row d-flex justify-content-center";
     div.appendChild(row);
     document.getElementById("acogida").appendChild(div);
 
