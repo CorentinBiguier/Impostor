@@ -223,13 +223,13 @@ function mover(datos){
     jugadores[datos.remotoId].setY(datos.y);
     jugadores[datos.remotoId].body.velocity.normalize().scale(speed);
 
-    if        (datos.direccion == "left") { jugadores[datos.remotoId].anims.play("demon-left-walk", true);
-    } else if (datos.direccion == "right"){ jugadores[datos.remotoId].anims.play("demon-right-walk",true);
-    } else if (datos.direccion == "up")   { jugadores[datos.remotoId].anims.play("demon-back-walk", true);
-    } else if (datos.direccion == "down") { jugadores[datos.remotoId].anims.play("demon-front-walk",true);
-    } else {
-        jugadores[datos.remotoId].anims.stop();
-    }
+      if        (datos.direccion == "left") { jugadores[datos.remotoId].anims.play("demon-left-walk", true);
+      } else if (datos.direccion == "right"){ jugadores[datos.remotoId].anims.play("demon-right-walk",true);
+      } else if (datos.direccion == "up")   { jugadores[datos.remotoId].anims.play("demon-back-walk", true);
+      } else if (datos.direccion == "down") { jugadores[datos.remotoId].anims.play("demon-front-walk",true);
+      } else {
+          jugadores[datos.remotoId].anims.stop();
+      }
   }
 }
 
