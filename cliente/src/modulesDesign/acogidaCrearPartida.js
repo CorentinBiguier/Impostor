@@ -25,10 +25,10 @@ function cargarAcogida(){
 	document.getElementById("zonaFormulario").appendChild(input);		
 
 	div = document.createElement("div");
-	div.className = "row";
+	div.className = "row justify-content-center";
 		button = document.createElement("button");
 		button.id = "btnCrearPartida";
-		button.className = "mb-4 btn btn-success btn-lg w-25";
+		button.className = "mb-4 btn btn-success btn-lg w-25 ";
 		button.onclick = function(){dataCrearPartida()};
 		button.textContent = "Crear partida";
 
@@ -36,7 +36,7 @@ function cargarAcogida(){
 	
 		button = document.createElement("button");
 		button.id = "verPartidas";
-		button.className = "mb-4 btn btn-primary btn-lg w-25";
+		button.className = "mb-4 btn btn-primary btn-lg w-25 me-5";
 		button.onclick = function(){
 			cargarListaPartidas();
 			if(window.cliSck.getListaPartidas().length != 0)

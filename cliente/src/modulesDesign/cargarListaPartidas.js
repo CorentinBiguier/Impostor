@@ -17,7 +17,7 @@ function cargarListaPartidas(h2,input,button,row){
 	document.getElementById("zonaFormulario").appendChild(input);
 
 	div = document.createElement("div");
-	div.className = "row";
+	div.className = "row justify-content-center";
 	    button = document.createElement("button");
 		button.id = "btnCrearPartida";
 		button.className = "mb-4 btn btn-primary btn-lg w-25";
@@ -28,7 +28,7 @@ function cargarListaPartidas(h2,input,button,row){
 
 	row = document.createElement("div");
 	row.id = "lista";
-	row.className = "row mt-3";
+	row.className = "row m-3";
 	document.getElementById("containerZonaFormulario").appendChild(row);
 
 }//terminado, para cargar la pagina de lista de partidas sin la lista de partidas
