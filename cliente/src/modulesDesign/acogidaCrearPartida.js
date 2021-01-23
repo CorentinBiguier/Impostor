@@ -1,13 +1,13 @@
 import {cargarListaPartidas,fijarPartidas} from "./cargarListaPartidas.js";
 import {dataCrearPartida} from "./../modulesRecuperarDatos/datosAcogida.js";
-let h2; let input; let button;
+let h2; let input; let button; let div;
 
 function cargarAcogida(){
 	document.getElementById("zonaFormulario").innerHTML = "";
 
 	h2 = document.createElement("h2");
 	h2.className = "mb-4 text-center";
-	h2.textContent = "Nueva una partida";
+	h2.textContent = "Una nueva partida";
 	document.getElementById("zonaFormulario").appendChild(h2);
 
 	input = document.createElement("input");
@@ -24,23 +24,27 @@ function cargarAcogida(){
 	input.placeholder = "Numero de jugadores";
 	document.getElementById("zonaFormulario").appendChild(input);		
 
-	button = document.createElement("button");
-	button.id = "btnCrearPartida";
-	button.className = "mb-4 btn btn-success btn-lg w-25";
-	button.onclick = function(){dataCrearPartida()};
-	button.textContent = "Crear partida";
-	document.getElementById("zonaFormulario").appendChild(button);
-		
-	button = document.createElement("button");
-	button.id = "verPartidas";
-	button.className = "mb-4 btn btn-primary btn-lg w-25";
-	button.onclick = function(){
-		cargarListaPartidas();
-		if(window.cliSck.getListaPartidas().length != 0)
-			fijarPartidas(window.cliSck.getListaPartidas());
-	};
-	button.textContent = "Ver partidas";
-	document.getElementById("zonaFormulario").appendChild(button);
+	div = document.createElement("div");
+	div.className = "row";
+		button = document.createElement("button");
+		button.id = "btnCrearPartida";
+		button.className = "mb-4 btn btn-success btn-lg w-25";
+		button.onclick = function(){dataCrearPartida()};
+		button.textContent = "Crear partida";
+
+		div.appendChild(button);
+	
+		button = document.createElement("button");
+		button.id = "verPartidas";
+		button.className = "mb-4 btn btn-primary btn-lg w-25";
+		button.onclick = function(){
+			cargarListaPartidas();
+			if(window.cliSck.getListaPartidas().length != 0)
+				fijarPartidas(window.cliSck.getListaPartidas());
+		};
+		button.textContent = "Ver partidas";
+		div.appendChild(button);
+	document.getElementById("zonaFormulario").appendChild(div);
 }//terminado, para cargar la pagina de acogida
 
 export {cargarAcogida};
