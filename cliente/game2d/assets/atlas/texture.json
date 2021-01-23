@@ -1,6 +1,6 @@
 {
   "frames": {
-    "demon-back-walk.000": {
+    "demon-front-walk.000": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -24,7 +24,7 @@
         "y": 0.5
       }
     },
-    "demon-front-walk.000": {
+    "demon-back-walk.000": {
       "frame": {
         "x": 0,
         "y": 55,
@@ -96,7 +96,7 @@
         "y": 0.5
       }
     },
-    "demon-back-walk.001": {
+    "demon-front-walk.001": {
       "frame": {
         "x": 0,
         "y": 220,
@@ -120,7 +120,7 @@
         "y": 0.5
       }
     },
-    "demon-back-walk.002": {
+    "demon-front-walk.002": {
       "frame": {
         "x": 40,
         "y": 165,
@@ -144,7 +144,7 @@
         "y": 0.5
       }
     },
-    "demon-front-walk.002": {
+    "demon-back-walk.002": {
       "frame": {
         "x": 42,
         "y": 110,
@@ -264,7 +264,7 @@
         "y": 0.5
       }
     },
-    "demon-front-walk.001": {
+    "demon-back-walk.001": {
       "frame": {
         "x": 52,
         "y": 54,
