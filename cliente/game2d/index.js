@@ -85,7 +85,8 @@ function create() {
     .sprite(spawnPoint.x+i*24+2, spawnPoint.y, "atlas", "demon-front-walk.000")
     .setSize(30, 40)
     .setOffset(0, 24);
-  jugadores[i] = player;
+
+  jugadores[i]    = player;
   jugadores[i].id = i;
 
   // Watch the player and worldLayer for collisions, for the duration of the scene:
@@ -123,7 +124,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-left-walk.",
       start: 0,
-      end: 2,
+      end: 3,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -134,7 +135,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-right-walk.",
       start: 0,
-      end: 2,
+      end: 3,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -145,7 +146,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-front-walk.",
       start: 0,
-      end: 2,
+      end: 3,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -156,7 +157,7 @@ function create() {
     frames: anims.generateFrameNames("atlas", {
       prefix: "demon-back-walk.",
       start: 0,
-      end: 2,
+      end: 3,
       zeroPad: 3
     }),
     frameRate: 10,
@@ -221,17 +222,14 @@ function mover(datos){
     jugadores[datos.remotoId].setX(datos.x);
     jugadores[datos.remotoId].setY(datos.y);
     jugadores[datos.remotoId].body.velocity.normalize().scale(speed);
-      if (datos.direccion == "left") {
-        jugadores[datos.remotoId].anims.play("demon-left-walk", true);
-      } else if (datos.direccion == "right") {
-        jugadores[datos.remotoId].anims.play("demon-right-walk", true);
-      } else if (datos.direccion == "up") {
-        jugadores[datos.remotoId].anims.play("demon-back-walk", true);
-      } else if (datos.direccion == "down") {
-        jugadores[datos.remotoId].anims.play("demon-front-walk", true);
-      } else {
-          jugadores[datos.remotoId].anims.stop();
-      }
+
+    if        (datos.direccion == "left") { jugadores[datos.remotoId].anims.play("demon-left-walk", true);
+    } else if (datos.direccion == "right"){ jugadores[datos.remotoId].anims.play("demon-right-walk",true);
+    } else if (datos.direccion == "up")   { jugadores[datos.remotoId].anims.play("demon-back-walk", true);
+    } else if (datos.direccion == "down") { jugadores[datos.remotoId].anims.play("demon-front-walk",true);
+    } else {
+        jugadores[datos.remotoId].anims.stop();
+    }
   }
 }
 
