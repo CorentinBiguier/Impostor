@@ -21,7 +21,7 @@ class clienteWS {
 
     initializarSocket(){
         //this.socket = io("http://localhost:5000/"); 
-        this.socket = io("https://impostor-adrien-mignot.herokuapp.com/");
+        this.socket = io("https://impostor-corentinbiguier.herokuapp.com/");
         //métodos gestion de la conexion
         msgOnConnect();
         msgOnConectado();
