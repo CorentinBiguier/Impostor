@@ -22,20 +22,26 @@ class clienteWS {
     initializarSocket(){
         //this.socket = io("http://localhost:5000/"); 
         this.socket = io("https://impostor-corentinbiguier.herokuapp.com/");
+       
         //métodos gestion de la conexion
         msgOnConnect();
         msgOnConectado();
         msgOnDisconnect();
+
         //métodos creacion de partida
         msgOnPartidaCreada();
+
         //métodos gestion de la lista de partidas
         msgOnNuevaPartidaDisponible();
+
         //métodos gestion unir a partida
         msgOnUnidoAPartida();
         msgOnUsuarioUnidaAUnaPartida();
         msgOnActualizarNumJug();
+
         //métodos iniciar partida
         msgOnPartidaIniciada();
+
         //métodos manage juego;
         msgOnMandarPapel();
         msgOnMoverRemoto();

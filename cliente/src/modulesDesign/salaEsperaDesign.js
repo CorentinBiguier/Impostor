@@ -9,6 +9,7 @@ function cargarSalaEspera(){
 	document.getElementById("acogida").innerHTML = '';
 	div = document.createElement("div");
 	div.className = "container-fluid";
+
 	row = document.createElement("div");
 	row.id = "infosPartida";
 	row.className = "row justify-content-center";
