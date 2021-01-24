@@ -4,6 +4,7 @@ let h2; let input; let button; let div;
 
 function cargarAcogida(){
 	document.getElementById("zonaFormulario").innerHTML = "";
+	document.getElementById("containerZonaFormulario").innerHTML = "";
 
 	h2 = document.createElement("h2");
 	h2.className = "mb-4 text-center";
