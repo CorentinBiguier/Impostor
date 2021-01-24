@@ -47,7 +47,7 @@ function fijarPartidas(partidas){
 
 		if(partida.numJug == partida.numJugMax){
 			btn.disabled = true;
-			btn.className = "btn btn-lg btn-secondary w-50 m-1";
+			btn.className = "btn btn-lg btn-secondary";
 			sp.className = "ml-1 badge bg-dark";
 		}
 		btn.appendChild(sp);
@@ -66,7 +66,7 @@ function anadirPartida(partida){
 function refrescarNumeroUsuarioEnPartida(data){
 	if(data.numJug == data.numJugMax){
 		document.getElementById("btn"+data.codigo).disabled = true;
-		document.getElementById("btn"+data.codigo).className = "btn btn-lg btn-secondary";
+		document.getElementById("btn"+data.codigo).className = "btn btn-lg btn-secondary w-50 mb-2";
 		document.getElementById("span"+data.codigo).className = "ml-1 badge bg-dark";
 	}
 
