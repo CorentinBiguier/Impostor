@@ -7,7 +7,7 @@ function unirAPartida(codigo,nick){
 
 function msgOnUnidoAPartida(){
     window.cliSck.socket.on("unidoAPartida", data => {
-        alert("data"+data)
+        launchAlert(data.nick,"data :")
         if(!("msg" in data)){
             window.cliSck.id = data.id;
             window.cliSck.nombre = data.nombre;
