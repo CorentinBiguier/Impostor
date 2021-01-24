@@ -100,6 +100,7 @@ function updateBtnLobby(codigo){
 }//terminado, para cambiar btn en modo espera a modo lanzar
 
 function cargarListaJugSalaEsp(usuarios){
+	alert(usuarios.usuariosUp);
 	usuarios.usuariosUp.forEach(usuario => {
 		h3 = document.createElement("h3");
 		h3.className = "pt-4 text-center";
