@@ -47,7 +47,7 @@ function fijarPartidas(partidas){
 
 		if(partida.numJug == partida.numJugMax){
 			btn.disabled = true;
-			btn.className = "btn btn-lg btn-secondary";
+			btn.className = "btn btn-lg btn-secondary w-50 mb-2";
 			sp.className = "ml-1 badge bg-dark";
 		}
 		btn.appendChild(sp);
@@ -76,7 +76,7 @@ function refrescarNumeroUsuarioEnPartida(data){
 function genButton(codigo){
 	btn = document.createElement("button");
 	btn.id = `btn${codigo}`;
-	btn.className = "btn btn-lg btn-primary";
+	btn.className = "btn btn-lg btn-primary w-50 mb-2";
 	btn.onclick = function(){dataUnirAPartida(codigo)};
 	btn.textContent = `${codigo}`;
 
