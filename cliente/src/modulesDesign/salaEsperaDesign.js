@@ -44,23 +44,23 @@ function anadirASalaEspera(nombre){
 	document.getElementById("listaJugadores").appendChild(h3);
 }//terminado para anadir a sala de espera
 
-// function addSelectionPapel(){
-// 	select = document.createElement("select");
-// 	select.className = "form-select";
-// 	select.id = "selectPapel";
-// 	select.onclick = function(){UpdateChar()};
+ function addSelectionPapel(){
+	select = document.createElement("select");
+	select.className = "form-select";
+	select.id = "selectPapel";
+	select.onclick = function(){UpdateChar()};
 
-// 	for(let i = 1; i < 3; i++){
-// 		option = document.createElement("option");
-// 		option.value = i;
-// 		if(i == 1)
-// 			option.textContent = "rob";
-// 		else
-// 			option.textContent = "red";
-// 		select.appendChild(option);
-// 	}
-// 	document.getElementById("listaJugadores").appendChild(select)
-// }//terminado, add lista de papel
+	for(let i = 1; i < 3; i++){
+		option = document.createElement("option");
+		option.value = i;
+		if(i == 1)
+			option.textContent = "rob";
+		else
+			option.textContent = "red";
+		select.appendChild(option);
+	}
+	document.getElementById("listaJugadores").appendChild(select)
+}//terminado, add lista de papel
 
 function addBtnToOwner(isOwner){
 	if(isOwner == true){

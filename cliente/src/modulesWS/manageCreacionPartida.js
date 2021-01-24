@@ -14,7 +14,7 @@ function msgOnPartidaCreada(){
             window.cliSck.codigo = data.codigo;
             slEsDes.cargarSalaEspera(data);
             slEsDes.anadirASalaEspera(data.nombre);
-            slEsDes.addSelectionPapel();
+            //slEsDes.addSelectionPapel();
             slEsDes.addBtnToOwner(window.cliSck.isOwner);
         } else
             launchAlert(data.msg,"alert-warning");

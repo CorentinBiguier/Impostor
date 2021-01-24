@@ -14,7 +14,7 @@ function msgOnUnidoAPartida(){
             window.cliSck.usuarios = data.usuariosUp;
             slEsDes.cargarSalaEspera(data);
             slEsDes.cargarListaJugSalaEsp(data);
-            slEsDes.addSelectionPapel();
+           // slEsDes.addSelectionPapel();
         } else
             launchAlert(data.msg,"alert-warning");
     });
