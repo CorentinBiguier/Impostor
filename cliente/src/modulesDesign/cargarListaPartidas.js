@@ -1,6 +1,6 @@
 import {cargarAcogida}  from "./acogidaCrearPartida.js";
 import {dataUnirAPartida} from "./../modulesRecuperarDatos/datosListaPartidas.js";
-let btn; let sp;let div;
+let btn; let sp; let div; let clean;
 
 function cargarListaPartidas(h2,input,button,row){
     document.getElementById("zonaFormulario").innerHTML = "";
@@ -21,7 +21,12 @@ function cargarListaPartidas(h2,input,button,row){
 	    button = document.createElement("button");
 		button.id = "btnCrearPartida";
 		button.className = "mb-4 btn btn-secondary btn-lg w-25";
-		button.onclick = function(){cargarAcogida()};
+		button.onclick = function(){
+			try{
+				document.getElementById("lista").innerHTML = "";
+			}
+			cargarAcogida();
+		};
 		button.textContent = "Volver a crear Partida";
 		div.appendChild(button);
 	document.getElementById("zonaFormulario").appendChild(div);
