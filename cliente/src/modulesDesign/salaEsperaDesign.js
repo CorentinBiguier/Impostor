@@ -12,7 +12,7 @@ function cargarSalaEspera(){
 
 	row = document.createElement("div");
 	row.id = "infosPartida";
-	row.className = "row justify-content-center";
+	row.className = "row justify-content-center mt-3 shadow-lg p-3 mb-5 bg-white rounded";
 
 		h1 = document.createElement("h1");
 		h1.className = "pt-4 text-center";
