@@ -24,6 +24,8 @@ function cargarListaPartidas(h2,input,button,row){
 		button.onclick = function(){
 			try{
 				document.getElementById("lista").innerHTML = "";
+			}catch (error) {
+				console.error(error);
 			}
 			cargarAcogida();
 		};
