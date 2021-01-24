@@ -14,16 +14,20 @@ function cargarSalaEspera(){
 	row.id = "infosPartida";
 	row.className = "row justify-content-center";
 
-			h1 = document.createElement("h1");
-			h1.className = "pt-4 text-center";
-			h1.textContent = "Sala de espera";
+		h1 = document.createElement("h1");
+		h1.className = "pt-4 text-center";
+		h1.textContent = "Sala de espera";
+		row.appendChild(h1);
 
 		h3 = document.createElement("h3");
 		h3.className = "pt-4 text-center";
-		h3.textContent = "Creador: "+window.cliSck.nombre+" | Codigo: "+window.cliSck.codigo;
+		h3.textContent = "Creador: "+window.cliSck.nombre;
+		row.appendChild(h3);
 
-	row.appendChild(h1);
-	row.appendChild(h3);
+		h3 = document.createElement("h3");
+		h3.className = "pt-4 text-center fw-bold fst-italic";
+		h3.textContent = "Codigo: "+window.cliSck.codigo;
+		row.appendChild(h3);
 
 	div.appendChild(row);
 	document.getElementById("lobby").appendChild(div);
